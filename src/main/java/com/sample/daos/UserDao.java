@@ -6,7 +6,7 @@ import com.sample.entities.Users;
 
 public interface UserDao {
 
-	Users getUser(String username);
+	List<Users> getUser(String username);
 
 	Users createUser(Users userEntity);
 

@@ -1,5 +1,9 @@
 package com.sample.schemas;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -13,13 +17,19 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlRootElement(name = "User")
 public class User {
 
+	@NotNull
+	@Size(min = 3)
 	@XmlElement(name = "FirstName", required = true)
 	protected String firstName;
 
+	@NotNull
+	@Size(min = 3)
 	@XmlElement(name = "LastName", required = true)
 	protected String lastName;
 
 	@XmlElement(name = "Age")
+	@Min(18)
+	@Max(70)
 	protected int age;
 
 	@XmlElement(name = "JoinedDate", required = true)

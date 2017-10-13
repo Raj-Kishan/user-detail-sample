@@ -38,16 +38,17 @@ public class CustomContextListener implements ServletContextListener {
 			LOG.info("Error while de-registering JDBC Driver", ex);
 		}
 
+		// MY-SQL Specific
 		try {
 			Class<?> cls = Class.forName("com.mysql.jdbc.AbandonedConnectionCleanupThread");
 			Method mth = (cls == null ? null : cls.getMethod("shutdown"));
 			if (mth != null) {
-				LOG.info("MySQL connection cleanup thread shutdown");
+				LOG.info("Shutting down MySQL connection cleanup thread");
 				mth.invoke(null);
 				LOG.info("MySQL connection cleanup thread shutdown successful");
 			}
 		} catch (Throwable thr) {
-			LOG.error("[ER] Failed to shutdown SQL connection cleanup thread: " + thr.getMessage(), thr);
+			LOG.error("Failed to shutdown SQL connection cleanup thread: " + thr.getMessage(), thr);
 		}
 	}
 

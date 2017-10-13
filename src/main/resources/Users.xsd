@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
 	<xs:element name="Users">
 		<xs:complexType>
@@ -22,4 +21,12 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="Error">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element type="xs:int" name="ErrorCode" />
+				<xs:element type="xs:string" name="ErrorMessage" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

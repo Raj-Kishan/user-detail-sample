@@ -16,13 +16,12 @@ public class UserDaoImpl implements UserDao {
 	private static final Logger LOG = LoggerFactory.getLogger(UserDao.class);
 
 	@Override
-	public Users getUser(String username) {
+	public List<Users> getUser(String username) {
 		// Try with Resources
 		try (Session session = HibernateUtil.getSession()) {
 			Query<Users> query = session.createNamedQuery("getUsersByFirstName", Users.class);
 			query.setParameter("firstname", username);
-			List<Users> userList = query.getResultList();
-			return userList.get(0);
+			return query.getResultList();
 		}
 	}
 

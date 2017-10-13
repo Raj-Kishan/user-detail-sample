@@ -9,7 +9,11 @@ import org.glassfish.jersey.server.ResourceConfig;
 public class MySampleApplication extends ResourceConfig {
 
 	public MySampleApplication() {
-		register(JacksonFeature.class).register(CustomContextListener.class);
+		register(JacksonFeature.class)
+		.register(CustomContextListener.class)
+		.register(NoDataFoundExceptionMapper.class)
+		.register(ValidationExceptionMapper.class);
+		
 		packages("com.sample", "com.sample.schemas");
 	}
 }

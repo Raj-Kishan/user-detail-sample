@@ -1,5 +1,7 @@
 package com.sample.resources;
 
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +28,10 @@ public class UserResource {
 	@Path("/{name}")
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public User getUser(@PathParam("name") String username) {
+	public Response getUser(@PathParam("name") String username) {
 		LOG.info("Get User By Username is requested");
 		UserService userService = new UserServiceImpl();
-		return userService.getUser(username);
+		return Response.ok(userService.getUser(username)).build();
 	}
 
 	@Path("/all")
@@ -44,10 +47,10 @@ public class UserResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public User createUser(User user) {
+	public Response createUser(@Valid User user) {
 		LOG.info("Create user requested");
 		UserService userService = new UserServiceImpl();
-		return userService.createUser(user);
+		return Response.ok(userService.createUser(user)).build();
 	}
 
 	@Path("/delete/{id}")
@@ -58,13 +61,16 @@ public class UserResource {
 		UserService userService = new UserServiceImpl();
 		return userService.deleteUser(id);
 	}
-	
+
 	@Path("/update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public User updateUser(User user){
+	public User updateUser(User user) {
 		LOG.info("Update user requested");
+		if(user.getUserId() == null) {
+			throw new ValidationException();
+		}
 		UserService userService = new UserServiceImpl();
 		return userService.updateUser(user);
 	}

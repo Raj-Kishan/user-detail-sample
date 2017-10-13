@@ -13,6 +13,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.sample.daos.UserDao;
 import com.sample.daos.UserDaoImpl;
 import com.sample.entities.Users;
+import com.sample.exceptions.NoDataFoundException;
 import com.sample.schemas.User;
 
 public class UserServiceImpl implements UserService {
@@ -20,7 +21,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUser(String username) {
 		UserDao userDao = new UserDaoImpl();
-		Users user = userDao.getUser(username);
+		List<Users> userList = userDao.getUser(username);
+		if (userList == null || userList.isEmpty()) {
+			throw new NoDataFoundException("No Such User Exists");
+		}
+		Users user = userList.get(0);
 		return mapUser(user);
 	}
 
@@ -56,7 +61,7 @@ public class UserServiceImpl implements UserService {
 	public User updateUser(User user) {
 		UserDao userDao = new UserDaoImpl();
 		Users userEntity = userDao.updateUser(createUserEntity(user, user.getUserId()));
-		
+
 		return mapUser(userEntity);
 	}
 
